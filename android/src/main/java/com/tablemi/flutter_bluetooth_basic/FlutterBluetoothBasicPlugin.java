@@ -44,7 +44,7 @@ public class FlutterBluetoothBasicPlugin implements MethodCallHandler, RequestPe
   private final Activity activity;
   private final MethodChannel channel;
   private final EventChannel stateChannel;
-  private final BluetoothManager mBluetoothManager;
+  private BluetoothManager mBluetoothManager;
   private BluetoothAdapter mBluetoothAdapter;
 
   private MethodCall pendingCall;
