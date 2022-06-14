@@ -51,22 +51,23 @@ public class FlutterBluetoothBasicPlugin implements FlutterPlugin, MethodCallHan
   private MethodCall pendingCall;
   private Result pendingResult;
 
-  private MethodChannel methodChannel;
+  private MethodChannel channel;
 
   public static void registerWith(Registrar registrar) {
     final FlutterBluetoothBasicPlugin instance = new FlutterBluetoothBasicPlugin(registrar);
     registrar.addRequestPermissionsResultListener(instance);
   }
 
-  /*@Override
-  public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
-    // TODO: your plugin is now attached to a Flutter experience.
+  @Override
+  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
+    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "test_124");
+    channel.setMethodCallHandler(this);
   }
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    // TODO: your plugin is no longer attached to a Flutter experience.
-  }*/
+    channel.setMethodCallHandler(null);
+  }
 
   FlutterBluetoothBasicPlugin(Registrar r){
     this.registrar = r;
