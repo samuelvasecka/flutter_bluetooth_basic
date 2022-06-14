@@ -26,7 +26,6 @@ import io.flutter.plugin.common.MethodChannel.MethodCallHandler;
 import io.flutter.plugin.common.MethodChannel.Result;
 import io.flutter.plugin.common.PluginRegistry.Registrar;
 import io.flutter.plugin.common.PluginRegistry.RequestPermissionsResultListener;
-import io.flutter.embedding.engine.plugins;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +34,7 @@ import java.util.Map;
 import java.util.Vector;
 
 /** FlutterBluetoothBasicPlugin */
-public class FlutterBluetoothBasicPlugin implements FlutterPlugin, MethodCallHandler, RequestPermissionsResultListener {
+public class FlutterBluetoothBasicPlugin implements MethodCallHandler, RequestPermissionsResultListener {
   private static final String TAG = "BluetoothBasicPlugin";
   private int id = 0;
   private ThreadPool threadPool;
@@ -51,22 +50,9 @@ public class FlutterBluetoothBasicPlugin implements FlutterPlugin, MethodCallHan
   private MethodCall pendingCall;
   private Result pendingResult;
 
-  private MethodChannel channel;
-
   public static void registerWith(Registrar registrar) {
     final FlutterBluetoothBasicPlugin instance = new FlutterBluetoothBasicPlugin(registrar);
     registrar.addRequestPermissionsResultListener(instance);
-  }
-
-  @Override
-  public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_bluetooth_basic");
-    channel.setMethodCallHandler(this);
-  }
-
-  @Override
-  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    channel.setMethodCallHandler(null);
   }
 
   FlutterBluetoothBasicPlugin(Registrar r){
@@ -74,8 +60,12 @@ public class FlutterBluetoothBasicPlugin implements FlutterPlugin, MethodCallHan
     this.activity = r.activity();
     this.channel = new MethodChannel(registrar.messenger(), NAMESPACE + "/methods");
     this.stateChannel = new EventChannel(registrar.messenger(), NAMESPACE + "/state");
-    this.mBluetoothManager = (BluetoothManager) registrar.activity().getSystemService(Context.BLUETOOTH_SERVICE);
-    this.mBluetoothAdapter = mBluetoothManager.getAdapter();
+    try {
+      this.mBluetoothManager = (BluetoothManager) registrar.activity().getSystemService(Context.BLUETOOTH_SERVICE);
+      this.mBluetoothAdapter = mBluetoothManager.getAdapter();
+    } catch(Exception e) {
+
+    }
     channel.setMethodCallHandler(this);
     stateChannel.setStreamHandler(stateStreamHandler);
   }
