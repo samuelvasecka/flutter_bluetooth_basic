@@ -60,7 +60,7 @@ public class FlutterBluetoothBasicPlugin implements MethodCallHandler, RequestPe
     this.activity = r.activity();
     this.channel = new MethodChannel(registrar.messenger(), NAMESPACE + "/methods");
     this.stateChannel = new EventChannel(registrar.messenger(), NAMESPACE + "/state");
-    this.mBluetoothManager = (BluetoothManager) Context.getSystemService(Context.BLUETOOTH_SERVICE);
+    this.mBluetoothManager = (BluetoothManager) registrar.activity().getSystemService(Context.BLUETOOTH_SERVICE);
     this.mBluetoothAdapter = mBluetoothManager.getAdapter();
     channel.setMethodCallHandler(this);
     stateChannel.setStreamHandler(stateStreamHandler);
