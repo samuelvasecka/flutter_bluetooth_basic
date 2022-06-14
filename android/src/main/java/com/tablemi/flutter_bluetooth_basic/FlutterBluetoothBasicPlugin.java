@@ -44,7 +44,7 @@ public class FlutterBluetoothBasicPlugin implements MethodCallHandler, RequestPe
   private final Activity activity;
   private final MethodChannel channel;
   private final EventChannel stateChannel;
-  private BluetoothManager mBluetoothManager;
+  private final BluetoothManager mBluetoothManager;
   private BluetoothAdapter mBluetoothAdapter;
 
   private MethodCall pendingCall;
@@ -60,13 +60,8 @@ public class FlutterBluetoothBasicPlugin implements MethodCallHandler, RequestPe
     this.activity = r.activity();
     this.channel = new MethodChannel(registrar.messenger(), NAMESPACE + "/methods");
     this.stateChannel = new EventChannel(registrar.messenger(), NAMESPACE + "/state");
-    try {
-      this.mBluetoothManager = (BluetoothManager) Context.getSystemService(Context.BLUETOOTH_SERVICE);
-      this.mBluetoothAdapter = mBluetoothManager.getAdapter();
-    } catch(Exception e) {
-      this.mBluetoothManager = null;
-      this.mBluetoothAdapter = null;
-    }
+    this.mBluetoothManager = (BluetoothManager) Context.getSystemService(Context.BLUETOOTH_SERVICE);
+    this.mBluetoothAdapter = mBluetoothManager.getAdapter();
     channel.setMethodCallHandler(this);
     stateChannel.setStreamHandler(stateStreamHandler);
   }
