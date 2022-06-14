@@ -60,7 +60,7 @@ public class FlutterBluetoothBasicPlugin implements FlutterPlugin, MethodCallHan
 
   @Override
   public void onAttachedToEngine(@NonNull FlutterPluginBinding flutterPluginBinding) {
-    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "test_124");
+    channel = new MethodChannel(flutterPluginBinding.getBinaryMessenger(), "flutter_bluetooth_basic");
     channel.setMethodCallHandler(this);
   }
 
